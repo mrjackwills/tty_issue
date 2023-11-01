@@ -96,10 +96,9 @@ pub async fn do_stuff() -> Result<(), Box<dyn std::error::Error + 'static>> {
             stdout.write_all(output.into_bytes().as_ref())?;
             stdout.flush()?;
         }
-		drop(output);
-		t.abort();
+        drop(output);
+        t.abort();
     }
-
 
     docker
         .remove_container(

@@ -47,16 +47,15 @@ impl Internal {
     }
 
     async fn run(&mut self) -> Result<()> {
+        let mut buttons = vec![];
 
-		let mut buttons = vec![];
-		
         loop {
-			let quit = should_quit()?;
+            let quit = should_quit()?;
             if !quit.2.is_empty() {
-				buttons.push(quit.2);
+                buttons.push(quit.2);
             }
             if quit.0 {
-				break;
+                break;
             }
             if quit.1 {
                 self.terminal.clear().ok();
@@ -64,10 +63,9 @@ impl Internal {
                 docker::do_stuff().await.ok();
                 self.terminal.clear().ok();
                 self.terminal = setup_terminal().context("setup failed")?;
-				continue;
+                continue;
             }
-			self.terminal.draw(|i| crate::render_app(i, &buttons))?;
-  
+            self.terminal.draw(|i| crate::render_app(i, &buttons))?;
         }
         Ok(())
     }
@@ -77,7 +75,7 @@ fn render_app(frame: &mut Frame, buttons: &[String]) {
     let greeting = Paragraph::new(format!(
         "Hello World! (press 'q' to quit, 'e' to docker execute) - just pressed: {buttons:?}"
     ));
-	
+
     frame.render_widget(greeting, frame.size());
 }
 
